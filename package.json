@@ -1,0 +1,25 @@
+{
+  "name": "homework",
+  "version": "1.0.0",
+  "main": "target/index.js",
+  "license": "MIT",
+  "scripts": {
+    "compile": "tsc -w",
+    "start": "node .",
+    "postinstall": "tsc -p ."
+  },
+  "dependencies": {
+    "@types/koa": "^2.0.46",
+    "@types/koa-bodyparser": "^5.0.1",
+    "@types/koa-multer": "^1.0.0",
+    "@types/koa-router": "^7.0.32",
+    "koa": "^2.5.3",
+    "koa-bodyparser": "^4.2.1",
+    "koa-multer": "^1.0.2",
+    "koa-router": "^7.4.0",
+    "pg": "^7.5.0",
+    "routing-controllers": "^0.7.7",
+    "typeorm": "^0.2.8",
+    "typescript": "^3.1.3"
+  }
+}
