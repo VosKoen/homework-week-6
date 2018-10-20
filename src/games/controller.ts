@@ -27,17 +27,25 @@ export default class GameController {
 
     const color = pickRandomColor();
 
-    const entity = Game.create({ name, color });
-    return entity.save();
+    const newGame = Game.create({ name, color });
+    return newGame.save();
   }
 
   @Put("/games/:id")
   async updateGame(@Param("id") id: number, @Body() update: Partial<Game>) {
     const game = await Game.findOne(id);
+    
     if (!game) throw new NotFoundError("Cannot find game");
-
+    if (update.color && !validateColor(update.color)) throw new BadRequestError("The requested color is not defined as a valid color.") ;
+   
     return Game.merge(game, update).save();
   }
+}
+
+const validateColor = (color) => {
+  console.log(color)
+  if (color !== "red" && color !== "blue" && color !== "green" && color !== "yellow" && color !== "magenta") return false;
+  return true;
 }
 
 const pickRandomColor = () => {
