@@ -4,7 +4,10 @@ import {
   HttpCode,
   Body,
   Post,
-  BadRequestError
+  BadRequestError,
+  NotFoundError,
+  Param,
+  Put
 } from "routing-controllers";
 import Game from "./entity";
 
@@ -20,14 +23,20 @@ export default class GameController {
   @HttpCode(201)
   createGame(@Body() game: Partial<Game>) {
     const { name } = game;
-    if (!game)
-      throw new BadRequestError("Bad request, please update your request");
     if (!name) throw new BadRequestError("A new game should have a name");
 
     const color = pickRandomColor();
 
     const entity = Game.create({ name, color });
     return entity.save();
+  }
+
+  @Put("/games/:id")
+  async updateGame(@Param("id") id: number, @Body() update: Partial<Game>) {
+    const game = await Game.findOne(id);
+    if (!game) throw new NotFoundError("Cannot find game");
+
+    return Game.merge(game, update).save();
   }
 }
 
